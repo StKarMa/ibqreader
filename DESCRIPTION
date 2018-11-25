@@ -1,0 +1,15 @@
+Package: ibqreader
+Type: Package
+Title: reading isobarquant files into R and run mapDIA, SAINTq
+Version: 0.0.0.0.5
+Author: stkarma
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: this package reads resulfiles form isobarquant
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+Depends: tidyverse
+Imports: 
+    magrittr,
+    ggplot2
+RoxygenNote: 6.1.1
