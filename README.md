@@ -1,6 +1,6 @@
 "# ibqreader" 
 
-i am also new to this 
+I am also new to this  ...
 maybe try something like this in R
 
 library(devtools)
