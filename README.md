@@ -1,2 +1,11 @@
 "# ibqreader" 
-can i also edit this online and will it be downloaded as well?
+
+i am also new to this 
+maybe try something like this in R
+
+library(devtools)
+install_github("StKarMa/ibqreader")
+library(ibqreader)
+
+
+
