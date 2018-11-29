@@ -1,4 +1,4 @@
-#' if we want to apply general correction factors, specified int the pooling.csv here we are
+#' if we want to apply general correction factors, specified in the pooling.csv
 #' @export
 ibq_apply_coorection_factors <- function(){
 

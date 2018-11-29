@@ -1,4 +1,5 @@
 #' this function names and selects TMT channels that are specified in the pooling.csv
+#' @import magrittr
 #' @export
 
 ibq_name_things <- function(bait_channel, data) {

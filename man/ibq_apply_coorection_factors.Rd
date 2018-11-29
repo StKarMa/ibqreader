@@ -2,10 +2,10 @@
 % Please edit documentation in R/apply_correction_factors.R
 \name{ibq_apply_coorection_factors}
 \alias{ibq_apply_coorection_factors}
-\title{if we want to apply general correction factors, specified int the pooling.csv here we are}
+\title{if we want to apply general correction factors, specified in the pooling.csv}
 \usage{
 ibq_apply_coorection_factors()
 }
 \description{
-if we want to apply general correction factors, specified int the pooling.csv here we are
+if we want to apply general correction factors, specified in the pooling.csv
 }
