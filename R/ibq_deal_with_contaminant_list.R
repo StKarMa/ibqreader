@@ -8,7 +8,7 @@ ibq_filter_contam <- function(){
   # loading example file form package
 
 cont <-
-  system.file("extdata", "remove_contaminants.txt", package = "ibqreader") %>%
+  system.file("extdata", "remove_the_contaminants.txt", package = "ibqreader") %>%
   read_tsv
 
   # generating example file in working directory if not existent
