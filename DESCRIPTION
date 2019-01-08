@@ -1,7 +1,7 @@
 Package: ibqreader
 Type: Package
 Title: reading isobarquant files into R and run mapDIA, SAINTq
-Version: 0.0.0.1.0
+Version: 0.0.0.1.5
 Author: stkarma
 Maintainer: The package maintainer <stefankarlmaier@gmail.com>
 Description: this package reads resulfiles form isobarquant
