@@ -44,7 +44,9 @@ ibq_mapDIA <- function(combine_gene_sequence){
   if (md_tib$param_0 %>% str_detect(.,  "MIN_OBS =")) {
     get_number_for_min_obs <-
       md_tib$param_0 %>% str_extract(.,  "MIN_OBS = \\d+") %>%
-      str_remove(., "MIN_OBS = ") %>% as.double() %>% .[[1]]
+      str_remove(., "MIN_OBS = ") %>%
+      as.double() %>%
+      .[[1]]
 
     md_tib$param_0 <-
       md_tib$param_0 %>% str_remove(.,  "MIN_OBS = \\d+")
