@@ -2,31 +2,42 @@
 #' a short list is delivered with the package and generated in the working folder
 #' it will not be generated if a list already exists
 #' so you can use your own
+#' this function writes a default list of possible contaminants into the working
+#' directory of non yet exists. proteins in this file are considered to be
+#' contaminants and are removed from the protein and peptide lists.
+#' the function has to be re-run so that changes in the file can take effect
+#' protein and gene names can be used.
+#' copy them from the Protein_Gene_Description.csv.
 #' @export
+#'
 ibq_filter_contam <- function(){
 
   # loading example file form package
 
 cont <-
-  system.file("extdata", "remove_the_contaminants.txt", package = "ibqreader") %>%
+  system.file(
+    "extdata", "remove_the_contaminants.txt",
+    package = "ibqreader"
+    ) %>%
   read_tsv
 
   # generating example file in working directory if not existent
-ifelse(file.exists("remove_the_contaminants.txt"), "yes", write_tsv(cont, "remove_the_contaminants.txt"))
+ifelse(
+  file.exists("remove_the_contaminants.csv"),
+  "yes",
+  write_csv(cont, "remove_the_contaminants.csv", col_names = T)
+)
 
- # laoding file form working dir and making it no matter if the list contains gene names or protein id
-# veryveryelegant
+# laoding file form working dir and making it no matter if the list contains
+# gene names or protein id  veryveryelegant
 
 contaminants <<-
-  read_tsv("remove_the_contaminants.txt") %>%
+  read_csv("remove_the_contaminants.csv") %>%
   left_join(., unique_protein_gene_ID[-2],
             by = c("Contaminants" = "gene_name")) %>%
   left_join(., unique_protein_gene_ID[-2],
             by = c("Contaminants" = "protein_id")) %>% gather() %>% .[-1] %>%
   filter(!value == "NA") %>% unlist
-
-
-
 
 
 data_bare$protein <- data_bare$protein %>%

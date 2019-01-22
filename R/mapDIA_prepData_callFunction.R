@@ -1,13 +1,19 @@
 #'system.file("extdata/win", "mapDIA.exe", package = "ibqreader")
 #' this does everything to do a mapDIA_analysis
+#' it should recognize the operating system automatically
+#' combine gene_sequence option to true will treat peptides as proteins
+#' per definition the binary comparisons are made with the alphabetically last
+#' sample name so you can influence it via the name.
+#' system.file("extdata/win", "mapDIA.exe", package = "ibqreader")
 #' @export
-ibq_mapDIA_WIN <- function(combine_gene_sequence){
+ibq_mapDIA_new <- function(combine_gene_sequence = FALSE){
 
-  #md_tib$peptide <- md_tib$peptide %>% modify_depth(.,1, ~ibq_split_pepident(.))
+#md_tib$peptide <- md_tib$peptide %>% modify_depth(.,1, ~ibq_split_pepident(.))
 
 
   if (combine_gene_sequence == TRUE){
-    md_tib$peptide <- md_tib$peptide %>% modify_depth(.,1, ~ibq_combine_geneandsequence(.))
+    md_tib$peptide <- md_tib$peptide %>%
+      modify_depth(.,1, ~ibq_combine_geneandsequence(.))
   }
 
 
@@ -31,6 +37,21 @@ ibq_mapDIA_WIN <- function(combine_gene_sequence){
 
   md_tib$param_0 <- paste(parameter_mapDIA)
 
+
+
+# dealing with people that want freedom in choosing their min obse --------
+
+  if (md_tib$param_0 %>% str_detect(.,  "MIN_OBS =")) {
+    get_number_for_min_obs <-
+      md_tib$param_0 %>% str_extract(.,  "MIN_OBS = \\d+") %>%
+      str_remove(., "MIN_OBS = ") %>%
+      as.double() %>%
+      .[[1]]
+
+    md_tib$param_0 <-
+      md_tib$param_0 %>% str_remove(.,  "MIN_OBS = \\d+")
+  }
+
   ###adding the missing data dependant parameters from peptide table
   md_tib$param_0 <- map2(
     .x = md_tib$param_0,
@@ -39,7 +60,8 @@ ibq_mapDIA_WIN <- function(combine_gene_sequence){
       .x,
       "LABELS = ",
       .y %>% names %>% .[-c(1:3)] %>%  str_extract("^.*._") %>%
-        str_replace("_$", "") %>% unique %>% str_c(collapse = " "), "\n"
+        str_replace("_$", "") %>% unique %>% str_c(collapse = " "),
+      "\n"
     )
   )
 
@@ -49,11 +71,9 @@ ibq_mapDIA_WIN <- function(combine_gene_sequence){
   md_tib$param_0 <- map2(
     .x = md_tib$param_0,
     .y = md_tib$peptide,
-    ~ paste0(
-      .x,
-      "SIZE = ",
-      group_samples(.y) %>% t %>% str_c(collapse = " "), "\n"
-    )
+    ~ paste0(.x,
+             "SIZE = ",
+             group_samples(.y) %>% t %>% str_c(collapse = " "), "\n")
   )
 
   md_tib$param_0 <- map2(
@@ -62,9 +82,15 @@ ibq_mapDIA_WIN <- function(combine_gene_sequence){
     ~ paste0(
       .x,
       "MIN_OBS = ",
-      group_samples(.y) %>% transmute(n/n) %>%  as_vector() %>% str_c(collapse = " ") , "\n"
+      group_samples(.y) %>% transmute(n / n) %>%  as_vector() %>%
+        str_c(collapse = " ") %>%
+        str_replace_all(., "1", paste0(get_number_for_min_obs)),
+      "\n"
     )
   )
+
+
+
 
   md_tib$param_0 <-   map2(.x = md_tib$param_0,
                            .y = md_tib$peptide,
@@ -76,10 +102,9 @@ ibq_mapDIA_WIN <- function(combine_gene_sequence){
                              ifelse(
                                group_samples(.y) %>%
                                  count() == 2,
-                               paste0(
-                                 "
-                                 - 0
-                                 1 -")
+                               paste0("
+                                      - 1
+                                      0 -")
                                ,
 
                                ifelse(
@@ -155,25 +180,27 @@ ibq_mapDIA_WIN <- function(combine_gene_sequence){
                                              0 0 0 0 0 0 0 0 -"
                                              ,
                                              "
-                                             - 0 0 0 0 0 0 0 0 0
-                                             0 - 0 0 0 0 0 0 0 0
-                                             0 0 - 0 0 0 0 0 0 0
-                                             0 0 0 - 0 0 0 0 0 0
-                                             0 0 0 0 - 0 0 0 0 0
-                                             1 0 0 0 0 - 0 0 0 0
-                                             0 1 0 0 0 0 - 0 0 0
-                                             0 0 1 0 0 0 0 - 0 0
-                                             0 0 0 1 0 0 0 0 - 0
-                                             0 0 0 0 1 0 0 0 0 -"
-                                           )))
-                                     )))))))
+                                             - 0 0 0 0 0 0 0 0 1
+                                             0 - 0 0 0 0 0 0 0 1
+                                             0 0 - 0 0 0 0 0 0 1
+                                             0 0 0 - 0 0 0 0 0 1
+                                             0 0 0 0 - 0 0 0 0 1
+                                             0 0 0 0 0 - 0 0 0 1
+                                             0 0 0 0 0 0 - 0 0 1
+                                             0 0 0 0 0 0 0 - 0 1
+                                             0 0 0 0 0 0 0 0 - 1
+                                             0 0 0 0 0 0 0 0 0 -"
+                                           )
+                                           )
+                                           )
+                                           )
+                                           )
+                                           )
+                                           )
+                                           )
+                                           ))
 
-
-
-
-
-
-
+  md_tib <<- md_tib
 
   ### now generate a mapDIA folder and subfolders for the different runs
   dir.create("mapDIA")
@@ -190,45 +217,38 @@ ibq_mapDIA_WIN <- function(combine_gene_sequence){
 
 
 
-
-  mapdiaexe <- system.file("extdata/win", "mapDIA.exe", package = "ibqreader") %>% str_replace_all("/", "\\\\")
-
-  call.mapDIA <- map(md_tib$run,
-                     ~ (shell((
-                       paste0(
-                         "cd /D ",
-                         normalizePath(getwd()),
-                         "\\mapDIA\\",.x, " ",
-                         "& ", mapdiaexe,  "  input"
-                       )
-                     ),
-                     wait = TRUE)))
+# doing this step dependent of operating system ---------------------------
 
 
+  # function adopted from
+  # https://www.r-bloggers.com/identifying-the-os-from-r/
+  get_os <- function() {
+    sysinf <- Sys.info()
+    if (!is.null(sysinf)) {
+      os <- sysinf['sysname']
+      if (os == 'Darwin')
+        os <- "osx"
+    } else {
+      ## mystery machine
+      os <- .Platform$OS.type
+      if (grepl("^darwin", R.version$os))
+        os <- "osx"
+      if (grepl("linux-gnu", R.version$os))
+        os <- "linux"
+    }
+    tolower(os)
+  }
 
-  # reading mapDIA result files ---------------------------------------------
-
-  md_tib <- md_tib %>% mutate(mapDIA = map(md_tib$run,
-                                           ~ read_tsv(
-                                             paste0(
-                                               normalizePath(getwd()),
-                                               "\\mapDIA\\",
-                                               .x,
-                                               "\\analysis_output.txt"
-                                             ), col_types = "ciiccddddd"
-                                           )))
-
-  md_tib <- md_tib %>% mutate(mapDIA_log2 = map(md_tib$run,
-                                                ~ read_tsv(
-                                                  paste0(
-                                                    normalizePath(getwd()),
-                                                    "\\mapDIA\\",
-                                                    .x,
-                                                    "\\log2_data.txt"
-                                                  )#, col_types = "cccdddddddd"
-                                                )))
+##############################################################################
+  if (get_os() == "windows") {
+    md_tib <- call_mapDIA_windows()
+  } else {
+    md_tib <- call_mapDIA_mac()
+  }
 
 
+
+# writeing a table for an alternative view in prohits viz
   map2(md_tib$run,
        md_tib$mapDIA,
        ~write_tsv(.y %>% mutate(log_oddsDE = 1-FDR)

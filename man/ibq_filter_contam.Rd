@@ -5,7 +5,13 @@
 \title{to filter out common contaminants via gene_name or protein id
 a short list is delivered with the package and generated in the working folder
 it will not be generated if a list already exists
-so you can use your own}
+so you can use your own
+this function writes a default list of possible contaminants into the working
+directory of non yet exists. proteins in this file are considered to be
+contaminants and are removed from the protein and peptide lists.
+the function has to be re-run so that changes in the file can take effect
+protein and gene names can be used.
+copy them from the Protein_Gene_Description.csv.}
 \usage{
 ibq_filter_contam()
 }
@@ -14,4 +20,10 @@ to filter out common contaminants via gene_name or protein id
 a short list is delivered with the package and generated in the working folder
 it will not be generated if a list already exists
 so you can use your own
+this function writes a default list of possible contaminants into the working
+directory of non yet exists. proteins in this file are considered to be
+contaminants and are removed from the protein and peptide lists.
+the function has to be re-run so that changes in the file can take effect
+protein and gene names can be used.
+copy them from the Protein_Gene_Description.csv.
 }
