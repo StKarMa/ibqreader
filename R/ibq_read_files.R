@@ -66,11 +66,11 @@ ibq_read_results <- function(thefolder){
     short_name = map_chr(sample_name, ~ gsub(shortnamefilter, "", .)),
     prot = map(
       prot_frame,
-      ~ read_tsv(., col_types = "dcccdddddddddddddddddddddddddddddddddddddddddd")
+      ~ read_tsv(.)
     ),
     pep = map(
       pep_frame,
-      ~ read_tsv(., col_types = "dcccddddddcddcdddddddddddddddddddddddd")
+      ~ read_tsv(.)
     ),
     bait_channel = map(
       bait_channel_frame,
