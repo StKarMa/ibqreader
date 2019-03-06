@@ -1,7 +1,7 @@
 Package: ibqreader
 Type: Package
 Title: reading isobarquant files into R and run mapDIA, SAINTq
-Version: 0.0.0.1.6
+Version: 0.0.0.1.6.5
 Author: stkarma
 Maintainer: The package maintainer <stefankarlmaier@gmail.com>
 Description: this package reads resulfiles form isobarquant
@@ -11,6 +11,6 @@ LazyData: true
 Depends: tidyverse
 Imports: 
     magrittr,
-    ggplot2,
-    plotly
+    plotly,
+    rlang
 RoxygenNote: 6.1.1

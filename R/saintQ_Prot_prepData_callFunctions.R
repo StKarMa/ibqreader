@@ -187,17 +187,20 @@ map2(
     ~write_tsv(.y %>%
                  select(Bait, Prey, AvgP, BFDR, AvgSpec) %>%
                  mutate(
-                   AvgSpec = 50 * 10 * AvgSpec/max(AvgSpec) ## 50 is the standard of prohits viz
+                   AvgSpec = 50 * 10 * AvgSpec/max(AvgSpec)
+                   ## 50 is the standard of prohits viz
                  ),
                paste0("SAINTp/", .x, "/", "for_prohits_viz.txt"),
                col_names = TRUE))
 
 
-  saint_tib_p %>% select(run, saint_scorelist) %>% unnest %>% split(.$Bait) %>% map(~
-
-                                                                                      ggplot(data = ., aes(BFDR, fill = Bait)) +
-                                                                                      geom_histogram(bins = 20) +
-                                                                                      facet_wrap(~ run)
+  saint_tib_p %>%
+    select(run, saint_scorelist) %>%
+    unnest %>% split(.$Bait) %>%
+    map(~
+          ggplot(data = ., aes(BFDR, fill = Bait)) +
+          geom_histogram(bins = 20) +
+          facet_wrap( ~ run)
   )
 
   saint_tib_p <<- saint_tib_p
