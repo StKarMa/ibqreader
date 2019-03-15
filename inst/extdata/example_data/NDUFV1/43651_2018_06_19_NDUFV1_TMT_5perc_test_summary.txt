@@ -1,0 +1,40 @@
+sample_id	source_file	acquired_spectra	mascot_matched_spectra	spectra_in_qc_proteins	quantified_spectra	mean_precursor_ion_accuracy	sd_precursor_ion_accuracy	mean_reporter_ion_accuracy	sd_reporter_ion_accuracy
+1	43651_2018_06_19_NDUFV1_TMT_5perc_test.raw	11192	5976	3898	3842	5.26951	1.73981	0.000514315	0.000153143
+all	combined	11192	5976	3898	3842	5.26951400711	1.7398097623	0.000514315364991	0.000153142740595
+
+
+type	protein_hits
+target	488
+decoy	9
+
+
+fdr	min_mascot_score
+5%	11
+1%	21
+
+
+analysis	application	section	parameter	value
+preMascot	1 pyMSsafe	general	tolppm	8
+preMascot	1 pyMSsafe	general	tolmda	8
+preMascot	1 pyMSsafe	general	beforepeak	0.5
+preMascot	1 pyMSsafe	general	afterpeak	0.5
+preMascot	1 pyMSsafe	general	thread_count	6
+preMascot	1 pyMSsafe	general	printchargedata	True
+postMascot	2 proteinInference	general	minnumhook	1
+postMascot	2 proteinInference	general	dopickedproteinfdr	True
+postMascot	2 proteinInference	general	fdrthreshold	0.01
+postMascot	2 proteinInference	general	groupbygenename	True
+postMascot	5 quantifyProteins	general	fdrthreshold	0.01
+postMascot	5 quantifyProteins	ms2quantification	quantmethod	bootstrap
+postMascot	5 quantifyProteins	ms2quantification	remove_zeros	False
+postMascot	5 quantifyProteins	ms2quantification	remove_zero_threshold	-1
+postMascot	5 quantifyProteins	ms2quantification	p2tthreshold	4.0
+postMascot	5 quantifyProteins	ms2quantification	s2ithreshold	0.5
+postMascot	5 quantifyProteins	ms2quantification	mascotthreshold	15.0
+postMascot	5 quantifyProteins	ms2quantification	peplengthfilter	6
+postMascot	5 quantifyProteins	ms2quantification	fdrthreshold	0.01
+postMascot	5 quantifyProteins	ms2quantification	deltaseqfilter	5
+postMascot	5 quantifyProteins	ms2quantification	minquantspectra	4
+postMascot	5 quantifyProteins	ms2quantification	prior_ion_filter	1000.0
+postMascot	5 quantifyProteins	ms2quantification	least_squares_filter	1000.0
+postMascot	5 quantifyProteins	ms2quantification	ms1source_filter	None
