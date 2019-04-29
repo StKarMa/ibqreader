@@ -80,7 +80,7 @@ saint_tib_p$do_saint_form <-
         mutate_all(., ~as.character(.))) ### change format in order to allow merging
     )
 
-
+  saint_tib_p$do_saint <- saint_tib_p$do_saint
 # preparing and writing the data a folder per run   ----------------------------
 
 dir.create("SAINTp")
@@ -180,7 +180,7 @@ map2(
   ) %>%
     modify_depth(., 1, ~ separate(., combo, c("Prey", "Bait"), sep = "-_-_"))
 
-
+## printing some files
   walk2(
     saint_tib_p$run,
     saint_tib_p$prohitsviz,
@@ -192,6 +192,18 @@ map2(
                  ),
                paste0("SAINTp/", .x, "/", "for_prohits_viz.txt"),
                col_names = TRUE))
+
+  map2(saint_tib_p$do_saint,
+        saint_tib_p$saint_scorelist,
+        ~.x %>% slice(-1:-3)  %>% # get rid of extensive headers used for SAINT
+          left_join(., .y %>% select(Bait, Prey, BFDR) %>% spread( Bait, BFDR), by = c("gene_name" = "Prey"))) %>%
+    walk2(saint_tib_p$run, .,
+          ~ write_tsv(
+            .y
+            ,
+            paste0("SAINTp/", .x, "/", "for_humans.txt")
+          )
+    )
 
 
   saint_tib_p %>%

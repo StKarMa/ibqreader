@@ -43,3 +43,21 @@ ibq_combine_geneandsequence <- function(peptide_tibble){
 
   peptide_tibble %>%   mutate(gene_name = paste(gene_name, sequence, sep = "_"))
 }
+
+
+#' plotting a boxpot
+#' @export
+boxplot_10set_list_tibble <- function(x, y_intercept = 0.1){
+    x %>%
+    modify_depth(., 1,
+                 ~ .x %>%
+                   gather(., sample, value, -gene_name, -sequence, -msms_id)) %>%
+    map(
+      ~ .x %>% ggplot(aes(sample, (value))) +
+        geom_boxplot() +
+        theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+        scale_size(range=c(0.5,0.5)) +
+        theme(legend.position="none") +
+        geom_hline(yintercept = y_intercept, color = "red")
+    )
+}

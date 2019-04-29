@@ -7,7 +7,8 @@ comparisons. so we need to do some data wrangling to generate the
 dataframes that go into the draawings. also we set the FDR cut off.
 we start form the md tibble}
 \usage{
-ibq_format_mapDIA_for_drawing(FDRcutoff = 0.01)
+ibq_format_mapDIA_for_drawing(FDRcutoff = 0.01,
+  listofproteins = list("ACACA", "ADD3"))
 }
 \description{
 after mapDIA has been ran we can look at the results of the single pairwise

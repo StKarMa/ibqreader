@@ -7,7 +7,7 @@ ibq_format_mapDIA_for_drawing can be visualized as an interactiv plot_ly
 graph with this function}
 \usage{
 ibq_mapDIA_draw_diagonal(bait, base, ddata, DEFAULT_COLOR = "#1976d2",
-  SIG_COLOR = "#ffeb3b")
+  SIG_COLOR = "#ff6600", protein_listed = list("YWHAE", "YWHAZ"))
 }
 \description{
 mapDIA results that have been formatted with the function
