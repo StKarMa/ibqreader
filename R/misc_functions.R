@@ -1,4 +1,4 @@
-#' this function names and selects TMT channels that are specified in the pooling.csv
+#' this function names and selects TMT channels that are  specified in the pooling.csv
 #' @import magrittr
 #' @export
 
