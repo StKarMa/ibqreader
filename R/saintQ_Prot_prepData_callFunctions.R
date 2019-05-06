@@ -80,7 +80,7 @@ saint_tib_p$do_saint_form <-
         mutate_all(., ~as.character(.))) ### change format in order to allow merging
     )
 
-  saint_tib_p$do_saint <- saint_tib_p$do_saint
+  saint_tib_p$do_saint <<- saint_tib_p$do_saint
 # preparing and writing the data a folder per run   ----------------------------
 
 dir.create("SAINTp")
