@@ -197,7 +197,7 @@ map2(
         saint_tib_p$saint_scorelist,
         ~.x %>% slice(-1:-3)  %>% # get rid of extensive headers used for SAINT
           left_join(., .y %>% select(Bait, Prey, BFDR) %>%
-                      mutate(Prey = paste(Prey, ("_BFDR"))) %>%
+                      mutate(Bait = paste(Bait, ("_BFDR"))) %>%
                       spread( Bait, BFDR),
                     by = c("gene_name" = "Prey"))) %>%
     walk2(saint_tib_p$run, .,
