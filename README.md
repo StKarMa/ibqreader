@@ -10,7 +10,7 @@ Its written in R and therefore you should have R (studio) running.
 copy/paste the the next lines into R to install the development version 
 
 > library(devtools)  
-> install_github("StKarMa/ibqreader@tag_der_arbeit")  
+> install_github("StKarMa/ibqreader@mshguest")  
 > library(ibqreader)
 
 to get a first idea what we can do, we can put some example data into our working directory 
